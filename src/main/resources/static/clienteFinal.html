@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos Restaurante</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Mostrar el rol del usuario -->
+        <div id="infoRol" style="margin-bottom: 16px; font-weight: bold;"></div>
+
+        <!-- Menú del restaurante -->
+        <h1>Menú del Restaurante</h1>
+        <ul id="listaMenu"></ul>
+
+        <!-- Formulario para realizar un pedido -->
+        <h2>Realizar Pedido</h2>
+        <form id="pedidoForm">
+            <label for="mesaId">Mesa:</label>
+            <select id="mesaId" required></select>
+            <label>Selecciona los ítems del menú:</label>
+            <div id="menuCheckboxes"></div>
+            <button type="submit">Crear Pedido</button>
+        </form>
+        <div id="mensaje"></div>
+
+        <!-- Lista de pedidos realizados -->
+        <h2>Pedidos realizados</h2>
+        <ul id="listaPedidos"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

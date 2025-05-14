@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Administración Restaurante</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="adminSection" style="display:none;">
+        <div class="container">
+            <h1>Panel de Administración</h1>
+
+            <div id="infoRol" style="margin-bottom: 16px; font-weight: bold;"></div>
+
+            <h2>Agregar Producto al Menú</h2>
+            <form id="formAgregarProducto">
+                <label for="nombreProducto">Nombre:</label>
+                <input type="text" id="nombreProducto" required>
+                <label for="categoriaProducto">Categoría:</label>
+                <input type="text" id="categoriaProducto" required>
+                <label for="precioProducto">Precio:</label>
+                <input type="number" id="precioProducto" step="0.01" required>
+                <button type="submit">Agregar Producto</button>
+            </form>
+            <div id="mensajeProducto"></div>
+
+            <h2>Agregar Mesa</h2>
+            <form id="formAgregarMesa">
+                <label for="numeroMesa">Número de Mesa:</label>
+                <input type="number" id="numeroMesa" required>
+                <button type="submit">Agregar Mesa</button>
+            </form>
+            <div id="mensajeMesa"></div>
+
+            <h2>Mesas existentes</h2>
+            <ul id="listaMesas"></ul>
+
+            <h2>Menú del Restaurante</h2>
+            <ul id="listaMenu"></ul>
+
+            <h2>Pedidos realizados</h2>
+            <ul id="listaPedidos"></ul>
+        </div>
+    </div>
+
+    <div id="noAdminMsg" style="display:none; color:red; font-weight:bold;">
+        Acceso solo para administradores.
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
