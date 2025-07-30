@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+@layer base {
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Poppins", system-ui, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-100 hover:bg-secondary-200 text-secondary-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+
+  .card-hover {
+    @apply hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer;
+  }
+
+  .menu-card {
+    @apply card card-hover p-4;
+  }
+
+  .category-card {
+    @apply card card-hover text-center p-6;
+  }
+
+  .hero-section {
+    @apply bg-gradient-to-r from-primary-500 to-primary-700 text-white py-20;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold text-center mb-12 text-gray-900;
+  }
+
+  .container-custom {
+    @apply container mx-auto px-4;
+  }
+
+  .glass-effect {
+    @apply bg-white bg-opacity-90 backdrop-blur-sm border border-white border-opacity-20;
+  }
+
+  .food-card {
+    @apply bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl;
+  }
+
+  .price-tag {
+    @apply text-2xl font-bold text-primary-600;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-green-800;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-100 text-yellow-800;
+  }
+
+  .badge-danger {
+    @apply badge bg-red-100 text-red-800;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+
+  .cart-button {
+    @apply fixed bottom-4 right-4 bg-primary-500 hover:bg-primary-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 z-50;
+  }
+
+  .loading-spinner {
+    @apply animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent;
+  }
+
+  .shadow-custom {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .backdrop-blur-custom {
+    backdrop-filter: blur(10px);
+  }
+
+  .animation-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animation-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animation-bounce-in {
+    animation: bounceIn 0.6s ease-out;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Animaciones personalizadas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Estilos específicos para el restaurante */
+.menu-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.category-grid {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4;
+}
+
+.hero-background {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background-attachment: fixed;
+}
+
+.food-image {
+  @apply w-full h-48 object-cover;
+}
+
+.star-rating {
+  @apply flex items-center space-x-1 text-yellow-400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .hero-section {
+    @apply py-12;
+  }
+
+  .section-title {
+    @apply text-2xl mb-8;
+  }
+
+  .menu-grid {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .category-grid {
+    @apply grid-cols-1 gap-3;
+  }
+}
+
+/* Dark mode support (opcional) */
+@media (prefers-color-scheme: dark) {
+  .card {
+    @apply bg-gray-800 border-gray-700;
+  }
+
+  .text-gray-900 {
+    @apply text-gray-100;
+  }
+
+  .text-gray-600 {
+    @apply text-gray-300;
+  }
+}
+
+/* Estados de hover específicos */
+.menu-item:hover .food-image {
+  @apply scale-110;
+}
+
+.category-item:hover {
+  @apply transform scale-105;
+}
+
+/* Efectos de carga */
+.skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.skeleton-text {
+  @apply skeleton h-4 w-3/4 mb-2;
+}
+
+.skeleton-title {
+  @apply skeleton h-6 w-1/2 mb-4;
+}
+
+.skeleton-image {
+  @apply skeleton h-48 w-full;
+}

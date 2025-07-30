@@ -1,0 +1,27 @@
+﻿export const API_ENDPOINTS = {
+  MENU: '/menu',
+  MESAS: '/mesas',
+  PEDIDOS: '/pedidos',
+} as const;
+
+export const MESA_ESTADOS = {
+  LIBRE: 'LIBRE',
+  OCUPADA: 'OCUPADA',
+  RESERVADA: 'RESERVADA',
+} as const;
+
+export const PEDIDO_ESTADOS = {
+  PENDIENTE: 'PENDIENTE',
+  CONFIRMADO: 'CONFIRMADO',
+  PREPARANDO: 'PREPARANDO',
+  LISTO: 'LISTO',
+  ENTREGADO: 'ENTREGADO',
+  CANCELADO: 'CANCELADO',
+} as const;
+
+export const CATEGORIAS = {
+  ENTRADAS: 'ENTRADAS',
+  PLATOS_PRINCIPALES: 'PLATOS_PRINCIPALES',
+  POSTRES: 'POSTRES',
+  BEBIDAS: 'BEBIDAS',
+} as const;
