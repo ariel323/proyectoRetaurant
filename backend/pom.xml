@@ -9,7 +9,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.5</version>
-        <relativePath/>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.restaurant</groupId>
@@ -23,10 +23,24 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Web -->
+        <!-- Dependencia principal de Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Dependencia para Spring Web (necesaria para WebMvcConfigurer y CorsRegistry) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Dependencia para Spring Boot DevTools (opcional, para desarrollo) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Spring Boot Data JPA (usa jakarta.persistence en Spring Boot 3+) -->
@@ -72,14 +86,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!-- Devtools (opcional) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
 
         <!-- Test -->
