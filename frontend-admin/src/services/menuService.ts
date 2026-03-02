@@ -4,6 +4,7 @@ export type Producto = {
   categoria: string;
   precio: number;
   descripcion?: string;
+  imagen?: string;
 };
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -38,13 +39,13 @@ export async function getMenu(): Promise<Producto[]> {
     throw new Error(
       `No se pudo cargar el menú: ${
         error instanceof Error ? error.message : "Error desconocido"
-      }`
+      }`,
     );
   }
 }
 
 export async function agregarProducto(
-  producto: Omit<Producto, "id">
+  producto: Omit<Producto, "id">,
 ): Promise<Producto> {
   console.log("➕ Agregando producto:", producto);
 
@@ -71,7 +72,7 @@ export async function agregarProducto(
     throw new Error(
       `No se pudo agregar el producto: ${
         error instanceof Error ? error.message : "Error desconocido"
-      }`
+      }`,
     );
   }
 }
@@ -94,14 +95,14 @@ export async function eliminarProducto(id: number): Promise<void> {
     throw new Error(
       `No se pudo eliminar el producto: ${
         error instanceof Error ? error.message : "Error desconocido"
-      }`
+      }`,
     );
   }
 }
 
 export async function editarProducto(
   id: number,
-  producto: Partial<Omit<Producto, "id">>
+  producto: Partial<Omit<Producto, "id">>,
 ): Promise<Producto> {
   console.log("✏️ Editando producto ID:", id, producto);
 
@@ -128,7 +129,25 @@ export async function editarProducto(
     throw new Error(
       `No se pudo editar el producto: ${
         error instanceof Error ? error.message : "Error desconocido"
-      }`
+      }`,
     );
   }
+}
+
+export async function uploadImagen(id: number, file: File): Promise<Producto> {
+  const form = new FormData();
+  form.append("file", file);
+
+  const res = await fetch(`${API_BASE_URL}/menu/${id}/image`, {
+    method: "POST",
+    body: form,
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Error subiendo imagen: ${res.status} - ${text}`);
+  }
+
+  const data = await res.json();
+  return data as Producto;
 }

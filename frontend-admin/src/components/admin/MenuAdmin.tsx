@@ -5,6 +5,7 @@ import {
   eliminarProducto,
   editarProducto,
   Producto,
+  uploadImagen,
 } from "../../services/menuService";
 import { EmptyState } from "../common";
 import { useToast } from "../../hooks/useToast";
@@ -15,6 +16,8 @@ const MenuAdmin: React.FC = () => {
   const [categoria, setCategoria] = useState("");
   const [precio, setPrecio] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { addToast } = useToast();
@@ -65,12 +68,25 @@ const MenuAdmin: React.FC = () => {
         return;
       }
 
-      await agregarProducto({
+      const nuevo = await agregarProducto({
         nombre: nombre.trim(),
         categoria: categoria.trim(),
         precio: precioNumerico,
         descripcion: descripcion.trim() || undefined,
       });
+
+      // si hay imagen seleccionada, subirla
+      if (imageFile && nuevo && nuevo.id) {
+        try {
+          await uploadImagen(nuevo.id, imageFile);
+        } catch (imgErr) {
+          console.error("Error subiendo imagen:", imgErr);
+          addToast({
+            type: "warning",
+            message: "Producto creado pero falló la subida de imagen",
+          });
+        }
+      }
 
       addToast({
         type: "success",
@@ -81,6 +97,8 @@ const MenuAdmin: React.FC = () => {
       setCategoria("");
       setPrecio("");
       setDescripcion("");
+      setImageFile(null);
+      setPreview(null);
       await cargarMenu();
     } catch (error) {
       const errorMessage =
@@ -124,7 +142,7 @@ const MenuAdmin: React.FC = () => {
 
     const nuevaDescripcion = prompt(
       "Nueva descripción:",
-      producto.descripcion || ""
+      producto.descripcion || "",
     );
     if (nuevaDescripcion === null) return;
 
@@ -236,6 +254,34 @@ const MenuAdmin: React.FC = () => {
               placeholder="Descripción (opcional)"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Imagen (opcional)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const f = e.target.files && e.target.files[0];
+                  if (f) {
+                    setImageFile(f);
+                    const url = URL.createObjectURL(f);
+                    setPreview(url);
+                  } else {
+                    setImageFile(null);
+                    setPreview(null);
+                  }
+                }}
+                className="w-full"
+              />
+              {preview && (
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="mt-2 h-24 w-24 object-cover rounded"
+                />
+              )}
+            </div>
           </div>
           <button
             type="submit"
@@ -262,21 +308,31 @@ const MenuAdmin: React.FC = () => {
                 className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800 text-lg">
-                      {item.nombre}
-                    </h3>
-                    <p className="text-sm text-gray-600 uppercase font-medium">
-                      {item.categoria}
-                    </p>
-                    {item.descripcion && (
-                      <p className="text-sm text-gray-600 mt-1">
-                        {item.descripcion}
-                      </p>
+                  <div className="flex-1 flex items-center gap-4">
+                    {item.imagen && (
+                      <img
+                        src={item.imagen}
+                        alt={item.nombre}
+                        className="h-20 w-20 object-cover rounded mr-4"
+                        loading="lazy"
+                      />
                     )}
-                    <p className="text-xl font-bold text-green-600 mt-2">
-                      ${item.precio.toFixed(2)}
-                    </p>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-800 text-lg">
+                        {item.nombre}
+                      </h3>
+                      <p className="text-sm text-gray-600 uppercase font-medium">
+                        {item.categoria}
+                      </p>
+                      {item.descripcion && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          {item.descripcion}
+                        </p>
+                      )}
+                      <p className="text-xl font-bold text-green-600 mt-2">
+                        ${item.precio.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <button

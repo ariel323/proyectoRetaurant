@@ -15,6 +15,7 @@ public class MenuItemService {
     }
 
     public List<MenuItem> findAll() { return repository.findAll(); }
+    public MenuItem findById(Long id) { return repository.findById(id).orElseThrow(); }
     public MenuItem save(MenuItem item) { return repository.save(item); }
     public void delete(Long id) { repository.deleteById(id); }
 
@@ -23,6 +24,9 @@ public class MenuItemService {
         existente.setNombre(item.getNombre());
         existente.setCategoria(item.getCategoria());
         existente.setPrecio(item.getPrecio());
+        if (item.getImagen() != null) {
+            existente.setImagen(item.getImagen());
+        }
         return repository.save(existente);
     }
 

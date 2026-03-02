@@ -13,6 +13,7 @@ public class MenuItem {
     private String nombre;
     private String categoria;
     private double precio;
+    private String imagen;
 
     // Getters y setters
     public Long getId() { return id; }
@@ -23,4 +24,6 @@ public class MenuItem {
     public void setCategoria(String categoria) { this.categoria = categoria; }
     public double getPrecio() { return precio; }
     public void setPrecio(double precio) { this.precio = precio; }
+    public String getImagen() { return imagen; }
+    public void setImagen(String imagen) { this.imagen = imagen; }
 }

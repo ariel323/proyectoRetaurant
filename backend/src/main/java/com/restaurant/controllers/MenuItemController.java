@@ -3,6 +3,18 @@ package com.restaurant.controllers;
 import com.restaurant.models.MenuItem;
 import com.restaurant.services.MenuItemService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.net.MalformedURLException;
+import java.io.IOException;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +43,48 @@ public class MenuItemController {
         }
         
         return items;
+    }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<?> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        try {
+            MenuItem item = service.findById(id);
+
+            Path uploadDir = Paths.get("uploads");
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+
+            String original = StringUtils.cleanPath(file.getOriginalFilename());
+            String filename = id + "_" + System.currentTimeMillis() + "_" + original;
+            Path target = uploadDir.resolve(filename);
+            Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+
+            // Set imagen URL to the serving endpoint
+            String imagenUrl = "/api/menu/uploads/" + filename;
+            item.setImagen(imagenUrl);
+            service.save(item);
+
+            return ResponseEntity.ok(item);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/uploads/{filename:.+}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        try {
+            Path file = Paths.get("uploads").resolve(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return ResponseEntity.ok(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MalformedURLException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/debug")
